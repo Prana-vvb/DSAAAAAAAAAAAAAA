@@ -19,7 +19,8 @@ node *create(char data) {
     return newnode;
 }
 
-void genTree(node *root) { //Example binary tree
+node *genTree(node *root) { //Example binary tree
+    root = create('F');
     node *temp = root;
 
     temp->left = create('B');
@@ -44,7 +45,7 @@ void genTree(node *root) { //Example binary tree
     temp->left = create('H');
     temp->left->prev = temp;
 
-    return;
+    return root;
 }
 
 void preTrav(node *root) { //Root->Left->Right
@@ -72,8 +73,8 @@ void postTrav(node *root) { //Left->Right->Root
 }
 
 int main() {
-    node *root = create('F');
-    genTree(root);
+    node *root = NULL;
+    root = genTree(root);
 
     preTrav(root);
     printf("\n");
