@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include "stack.h"
+#include "lib/stack.h"
 
 int prec(stack *top, char symb) {
     if(((top->val == '+' || top->val == '-' || top->val == '/') && symb == '*') || ((top->val == '+' || top->val == '-') && symb == '/') || (top->val == '-' && symb == '+')) { return 0; }

@@ -1,3 +1,4 @@
+//Not really a sparse matrix. It's a linked list storing all the data required to build a sparse matrix
 #include <stdio.h>
 #include <stdlib.h>
 
