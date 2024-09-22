@@ -9,15 +9,7 @@ int prec(stack *top, char symb) {
     return 1;
 }
 
-int main() {
-    int l = 0;
-    printf("Enter expression length: ");
-    scanf("%d", &l);
-    char inp[l];
-    printf("Enter infix expression: ");
-    scanf("%s", inp);
-
-    stack *top = NULL;
+void shYard(stack *top, char *inp, int l) {
     for(int i = 0;i < l;i++) {
         char symb = inp[i];
 
@@ -34,6 +26,18 @@ int main() {
     }
 
     while(top != NULL) { top = pop(top); }
+}
+
+int main() {
+    int l = 0;
+    printf("Enter expression length: ");
+    scanf("%d", &l);
+    char inp[l];
+    printf("Enter infix expression: ");
+    scanf("%s", inp);
+
+    stack *top = NULL;
+    shYard(top, inp, l);
 
     return 0;
 }
