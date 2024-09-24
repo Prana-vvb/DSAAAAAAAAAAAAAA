@@ -2,7 +2,6 @@
 //Reverse input string -> Dijkstra's Shunting Yard algorithm(Convert to Postfix) -> Reverse resulting string to get Prefix expression
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
 
 //Modified stack that returns popped value instead of directly printing
@@ -39,7 +38,7 @@ char pop(stack **top) {
 }
 
 int precedence(char symb) {
-    switch (symb) {
+    switch(symb) {
         case '+':
         case '-':
             return 1;
@@ -48,6 +47,20 @@ int precedence(char symb) {
             return 2;
         default:
             return 0;
+    }
+}
+
+int isNotOp(char c) {
+   switch(c) {
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+        case '(':
+        case ')':
+            return 0;
+        default:
+            return 1;
     }
 }
 
@@ -66,7 +79,7 @@ char* shYard(stack **top, char *inp, int l) {
     for (int i = 0; i < l; i++) {
         char symb = inp[i];
 
-        if (isdigit(symb)) {
+        if (isNotOp(symb)) {
             char temp[2] = {symb, '\0'};
             strcat(out, temp);
         }
