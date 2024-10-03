@@ -3,39 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-//Modified stack that returns popped value instead of directly printing
-typedef struct STACK {
-    char val;
-    struct STACK *next;
-} stack;
-
-stack *create(char data) {
-    stack *newnode = (stack*)malloc(sizeof(stack));
-    newnode->val = data;
-    newnode->next = NULL;
-    return newnode;
-}
-
-void push(stack **top, char data) {
-    stack *newnode = create(data);
-    newnode->next = *top;
-    *top = newnode;
-}
-
-char pop(stack **top) {
-    if (*top == NULL) {
-        printf("Stack underflow\n");
-        return '\0';
-    }
-
-    stack *temp = *top;
-    char c = temp->val;
-    *top = (*top)->next;
-    free(temp);
-
-    return c;
-}
+#include "../lib/stack.h"
 
 int precedence(char symb) {
     switch(symb) {

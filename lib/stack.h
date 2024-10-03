@@ -1,50 +1,84 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct STACK{
+
+typedef struct STACK {
     char val;
     struct STACK *next;
-}stack;
+} stack;
 
 stack *create(char data) {
     stack *newnode = (stack*)malloc(sizeof(stack));
-   
     newnode->val = data;
     newnode->next = NULL;
-
     return newnode;
 }
 
-stack *push(stack *top, char data) {
+void push(stack **top, char data) {
     stack *newnode = create(data);
-
-    if(top == NULL) {
-        top = newnode;
-        return top;
-    }
-
-    newnode->next = top;
-    top = newnode;
-
-    return top;
+    newnode->next = *top;
+    *top = newnode;
 }
 
-stack *pop(stack *top) {
-    if(top == NULL) {
+char pop(stack **top) {
+    if (*top == NULL) {
         printf("Stack underflow\n");
-        return NULL;
+        return '\0';
     }
 
-    if(top->next == NULL) {
-        printf("%c", top->val);
-        free(top);
-        return NULL;
-    }
-
-    stack *temp = top;
-    top = top->next;
-    printf("%c", temp->val);
+    stack *temp = *top;
+    char c = temp->val;
+    *top = (*top)->next;
     free(temp);
 
-    return top;
+    return c;
 }
+
+//Old stack that directly prints popped values instead of returning
+/*typedef struct STACK{*/
+/*    char val;*/
+/*    struct STACK *next;*/
+/*}stack;*/
+/**/
+/*stack *create(char data) {*/
+/*    stack *newnode = (stack*)malloc(sizeof(stack));*/
+/**/
+/*    newnode->val = data;*/
+/*    newnode->next = NULL;*/
+/**/
+/*    return newnode;*/
+/*}*/
+/**/
+/*stack *push(stack *top, char data) {*/
+/*    stack *newnode = create(data);*/
+/**/
+/*    if(top == NULL) {*/
+/*        top = newnode;*/
+/*        return top;*/
+/*    }*/
+/**/
+/*    newnode->next = top;*/
+/*    top = newnode;*/
+/**/
+/*    return top;*/
+/*}*/
+/**/
+/*stack *pop(stack *top) {*/
+/*    if(top == NULL) {*/
+/*        printf("Stack underflow\n");*/
+/*        return NULL;*/
+/*    }*/
+/**/
+/*    if(top->next == NULL) {*/
+/*        printf("%c", top->val);*/
+/*        free(top);*/
+/*        return NULL;*/
+/*    }*/
+/**/
+/*    stack *temp = top;*/
+/*    top = top->next;*/
+/*    printf("%c", temp->val);*/
+/*    free(temp);*/
+/**/
+/*    return top;*/
+/*}*/

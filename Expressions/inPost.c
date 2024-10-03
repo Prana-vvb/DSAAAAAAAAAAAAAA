@@ -12,9 +12,16 @@ int precedence(char symb) {
         case '*':
         case '/':
             return 2;
+        case '^':
+            return 3;
         default:
             return 0;
     }
+}
+
+char associativity(char c) {
+    if(c == '^') { return 'R'; }
+    return 'L';
 }
 
 int isNotOp(char c) {
@@ -31,23 +38,42 @@ int isNotOp(char c) {
     }
 }
 
-void shYard(stack **top, char *inp, int l) {
+char* shYard(stack **top, char *inp, int l) {
+    char* out = (char*)malloc((2 * l + 1) * sizeof(char));
+    out[0] = '\0';
+
     for (int i = 0; i < l; i++) {
         char symb = inp[i];
 
-        if (isNotOp(symb)) { printf("%c", symb); }
-        else if (symb == '(') { *top = push(*top, symb); }
-        else if (symb == ')') {
-            while (*top != NULL && (*top)->val != '(') { *top = pop(*top); }
-            *top = pop(*top);
+        if (isNotOp(symb)) {
+            char temp[2] = {symb, '\0'};
+            strcat(out, temp);
         }
-        else {
-            while (*top != NULL && precedence(symb) <= precedence((*top)->val)) { *top = pop(*top); }
-            *top = push(*top, symb);
+        else if (symb == '(') { push(top, symb); }
+        else if (symb == ')') {
+            while (*top != NULL && (*top)->val != '(') {
+                char op = pop(top);
+                char temp[2] = {op, '\0'};
+                strcat(out, temp);
+            }
+            pop(top);
+        } else {
+            while (*top != NULL && precedence(symb) < precedence((*top)->val)) {
+                char op = pop(top);
+                char temp[2] = {op, '\0'};
+                strcat(out, temp);
+            }
+            push(top, symb);
         }
     }
 
-    while (*top != NULL) { *top = pop(*top); }
+    while (*top != NULL) {
+        char op = pop(top);
+        char temp[2] = {op, '\0'};
+        strcat(out, temp);
+    }
+
+    return out;
 }
 
 int main() {
@@ -56,9 +82,8 @@ int main() {
     scanf("%s", inp);
 
     stack *top = NULL;
-    printf("Postfix Expression: ");
-    shYard(&top, inp, strlen(inp));
-    printf("\n");
+    char *res = shYard(&top, inp, strlen(inp));
+    printf("Postfix Expression: %s\n", res);
 
     return 0;
 }
